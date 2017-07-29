@@ -115,11 +115,11 @@ if __name__ == '__main__':
     dataset = None
     if name == 'cnn':
         dataset = CNN()
-        dataset.load_data('/home/yi/Dropbox/workspace/data/cnn/')
-        dataset.load_doc_labels('/home/yi/Dropbox/workspace/data/cnn.doclabel.txt')
-        dataset.load_word_labels('/home/yi/Dropbox/workspace/data/cnn.wordlabel.txt')
+        dataset.load_data('/Users/robert.mealey/sparse-constrained-lda/data/cnn/')
+        dataset.load_doc_labels('/Users/robert.mealey/sparse-constrained-lda/data/cnn.doclabel.txt')
+        dataset.load_word_labels('/Users/robert.mealey/sparse-constrained-lda/data/cnn.wordlabel.txt')
     elif name == '20news':
         dataset = TwentyNewsDataset()
         dataset.load_data()
-    print dataset.word_size
-    print dataset.dictionary
+    print(dataset.word_size)
+    print(dataset.dictionary)

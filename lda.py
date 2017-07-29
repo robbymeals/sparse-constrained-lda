@@ -49,8 +49,8 @@ class LDA:
             self.nz[z_new] += 1
         self.loglikelihoods_ = []
 
-        print self.ndz.shape
-        print self.nzw.shape
+        print(self.ndz.shape)
+        print(self.nzw.shape)
 
     def update_potential(self):
         for label in self.doc_seed_labels:
@@ -132,10 +132,10 @@ class LDA:
                   " ".join([feature_names[i] for i in topic.argsort()[:-n_top_words - 1:-1]]))
 
     def print_labels(self):
-        print 'doc seed: ' + str(self.doc_seed_labels)
-        print 'doc pair: ' + str(self.doc_pair_labels)
-        print 'word seed: ' + str(self.word_seed_labels)
-        print 'word pair: ' + str(self.word_pair_labels)
+        print('doc seed: ' + str(self.doc_seed_labels))
+        print('doc pair: ' + str(self.doc_pair_labels))
+        print('word seed: ' + str(self.word_seed_labels))
+        print('word pair: ' + str(self.word_pair_labels))
 
     def load_label(self, file, feature_names):
         """load labels from file"""
@@ -167,13 +167,13 @@ if __name__ == '__main__':
     lda = LDA(n_topics)
     lda.initialize(dataset.data_matrix)
     lda.load_label('labels.txt', dataset.dictionary)
-    print lda.print_labels()
+    print(lda.print_labels())
 
     start_time = time.time()
     for iter in range(n_iter):
         lda.fit()
     elapsed_time = time.time() - start_time
-    print 'training time: ' + str(elapsed_time)
+    print('training time: ' + str(elapsed_time))
     lda.fininsh()
     lda.print_top_words(dataset.dictionary, 10)
 
