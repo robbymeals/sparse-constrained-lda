@@ -2,3 +2,6 @@ build/
 .idea/
 *.so
 *.pyc
+
+*.swp
+*.swo
