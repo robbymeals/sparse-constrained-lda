@@ -1,5 +1,5 @@
 from lda import LDA
-from dataset import CNN, TwentyNewsDataset
+from dataset import CNN, TwentyNewsDataset, Postings
 import utils
 import _lda
 import sys
@@ -154,25 +154,30 @@ class SparseLDA(LDA):
                         topic_word_coef[k] = self.alpha / (self.beta_sum + self.nz[k])
 
 if __name__ == '__main__':
-    name = 'cnn'
+    name = 'postings'
     if name == 'cnn':
         dataset = CNN()
         dataset.load_data('/Users/robert.mealey/sparse-constrained-lda/data/cnn/')
         n_topics = 5
         n_iter = 200
+    elif name == 'postings':
+        dataset = Postings()
+        dataset.load_data('/Users/robert.mealey/unique_posting_files.pkl', '/Users/robert.mealey/')
+        n_topics = 20
+        n_iter = 200
 
     lda = SparseLDA(n_topics)
     lda.initialize(dataset.data_matrix)
-    lda.load_label('labels.txt', dataset.dictionary)
+    #lda.load_label('labels.txt', dataset.dictionary)
     print(lda.print_labels())
 
     for iter in range(n_iter):
         lda.fit()
 
-    lda.fininsh()
-    print(lda.ndz[1, :])
-    print(lda.ndz[200, :])
-    print(lda.nzw[:, 386])#sandy
-    print(lda.nzw[:, 429])
+    lda.finish()
+    #print(lda.ndz[1, :])
+    #print(lda.ndz[200, :])
+    #print(lda.nzw[:, 386])#sandy
+    #print(lda.nzw[:, 429])
     lda.print_top_words(dataset.dictionary, 10)
     print(lda)

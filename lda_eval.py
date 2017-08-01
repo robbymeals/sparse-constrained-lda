@@ -29,15 +29,15 @@ class Evaluator:
 if __name__ == '__main__':
     # load dataset
     dataset = CNN()
-    dataset.load_data('/home/yi/Dropbox/workspace/data/cnn/')
+    dataset.load_data('/Users/robert.mealey/sparse-constrained-lda/data/cnn/')
 
     # train lda
     lda = LDA(5)
     lda.initialize(dataset.data_matrix)
-    #lda.load_label('labels.txt', dataset.dictionary)
+    lda.load_label('labels.txt', dataset.dictionary)
     for iter in range(20):
-        lda.fit(dataset.data_matrix)
-    lda.fininsh()
+        lda.fit()
+    lda.finish()
     lda.print_top_words(dataset.dictionary, 10)
 
     # evaluate lda

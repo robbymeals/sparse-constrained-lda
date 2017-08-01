@@ -100,7 +100,7 @@ class LDA:
         if labelType == 'wordpair':
             self.word_pair_labels.append(data_label)
 
-    def fininsh(self):
+    def finish(self):
         self.get_topic_word()
         self.get_doc_topic()
 
@@ -155,7 +155,7 @@ if __name__ == '__main__':
     name = 'cnn'
     if name == 'cnn':
         dataset = CNN()
-        dataset.load_data('/home/yi/Dropbox/workspace/data/cnn/')
+        dataset.load_data('/Users/robert.mealey/sparse-constrained-lda/data/cnn/')
         n_topics = 5
         n_iter = 20
     elif name == '20news':
@@ -174,6 +174,6 @@ if __name__ == '__main__':
         lda.fit()
     elapsed_time = time.time() - start_time
     print('training time: ' + str(elapsed_time))
-    lda.fininsh()
+    lda.finish()
     lda.print_top_words(dataset.dictionary, 10)
 

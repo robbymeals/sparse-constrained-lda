@@ -6,6 +6,7 @@ import os
 import xml.etree.ElementTree as ET
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.externals import joblib
 import sys
 from pandas import DataFrame
 from sklearn.cluster import KMeans, MiniBatchKMeans
@@ -31,6 +32,39 @@ class Dataset:
 
     def load_doc_labels(self, path):
         raise NotImplementedError
+
+
+class Postings(Dataset):
+    def __init__(self):
+        Dataset.__init__(self)
+
+    def load_data(self, unique_posting_files_path, posting_files_path):
+        self.unique_posting_files = joblib.load(unique_posting_files_path)
+        self.posting_files_path = posting_files_path
+
+        vectorizer = CountVectorizer(max_df=0.5, max_features=1000, min_df=2, stop_words='english',
+                                     analyzer='word', token_pattern='[^\W\d]+')
+
+        X = vectorizer.fit_transform((joblib.load(
+            self.posting_files_path + self.unique_posting_files[i])["topo"]
+            for i in range(len(self.unique_posting_files))))
+
+        self.data_matrix = X
+        self.doc_labels = []
+        self.word_labels = []
+
+        self.doc_size = self.data_matrix.shape[0]
+        self.word_size = self.data_matrix.shape[1]
+        self.dictionary = vectorizer.get_feature_names()
+
+
+    def load_doc_labels(self, path):
+        pass
+
+
+    def load_word_labels(self, path):
+        pass
+    
 
 class CNN(Dataset):
     def __init__(self):
@@ -111,8 +145,11 @@ class TwentyNewsDataset(Dataset):
 
 
 if __name__ == '__main__':
-    name = 'cnn'
+    name = 'postings'
     dataset = None
+    if name == 'postings':
+        dataset = Postings()
+        dataset.load_data('/Users/robert.mealey/unique_posting_files.pkl', '/Users/robert.mealey/')
     if name == 'cnn':
         dataset = CNN()
         dataset.load_data('/Users/robert.mealey/sparse-constrained-lda/data/cnn/')
